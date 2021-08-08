@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+textarea:focus, input:focus{
+    border: 2px solid #2980B9;
+    outline: none;
+}
+
+form input, form textarea {
+    border: 1.5px solid rgba(189,195,199,0.3);
+    border-radius: 16px;
+    padding: 8px;
+    resize: none;
+}
+
+form[method="post"] {
+    background-color: white;
+    border: 2px solid rgba(112,112,112,0.25);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form button {
+    border-radius: 16px !important;
+    background-color: #3498DB !important;
+}
+
+form button:hover {
+    background-color: #2980B9 !important;
+    transform: scale(1.05);
+}
+
+form h1 {
+    color: #2980B9;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+form h3 {
+    color: #2980B9;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+a {
+    color: #3498DB;
+    font-weight: bold;
+}
+
+.transparent-border {
+    border: 2px solid rgba(112,112,112,0.25);
+    border-radius: 16px;
+}
+
+.create-post {
+    padding: 10px !important;
+}

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -21,22 +23,21 @@ class AuthController extends Controller
             "password" => bcrypt($fields["password"])
         ]);
 
-        $token = $user->createToken("authToken")->plainTextToken;
-
         $response = [
             "user" => $user,
-            "token" => $token
         ];
 
-        return response($response, 201);
+        return response($response, 201)->redirectTo("/");
     }
 
     public function logout(Request $request) {
-        auth()->user()->tokens()->delete();
+        Auth::logout();
 
-        return [
-            "message" => "Logged out"
-        ];
+        $request->session()->invalidate();
+
+        $request->session()->regenerate();
+
+        return redirect("/");
     }
 
     public function login(Request $request) {
@@ -48,20 +49,13 @@ class AuthController extends Controller
         // check email
         $user = User::where("email", $fields["email"])->first();
 
-        // check password
-        if(!$user || !Hash::check($fields["password"], $user->password)) {
-            return response([
-                "message" => "Bad credentials"
-            ], 401);
+        if(Auth::attempt($fields)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended("/");
+        } else {
+            Session::flash("error", "bad credentials");
+            return back()->withInput($request->except("password"));
         }
-
-        $token = $user->createToken("authToken")->plainTextToken;
-
-        $response = [
-            "user" => $user,
-            "token" => $token
-        ];
-
-        return response($response, 201);
     }
 }

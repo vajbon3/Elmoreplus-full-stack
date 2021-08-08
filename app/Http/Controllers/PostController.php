@@ -15,14 +15,12 @@ class PostController extends Controller
         ]);
 
         // create the post
-        $post = new Post([
-            "user_id" => Auth::user()->id,
+        $post = Post::create([
+            "user_id" => auth()->id(),
             "body" => $post["body"]
         ]);
 
-        // save to database
-        $post->save();
-
+        $post->load("author");
         return response($post,201);
     }
 

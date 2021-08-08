@@ -12,6 +12,14 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js("resources/js/boot.js","public/js")
+    .js("resources/js/login.js","public/js")
+    .js("resources/js/home.js", "public/js")
+    .js("resources/js/navbar.js", "public/js")
+    .js("resources/js/notifications.js", "public/js")
+    .js("resources/js/friends.js", "public/js")
     .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+        require("tailwindcss"),
+    ])
+    .postCss("resources/css/login.css", "public/css")
+    .version();

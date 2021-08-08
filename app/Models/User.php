@@ -42,7 +42,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // relationships
+
     public function posts() {
         return $this->hasMany(Post::class);
     }
+
+
+    // helper methods
+    public function friendsWith(User $user) {
+        return Friendship::where("A", $this->id)
+            ->where("B", $user->id)->exists();
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, "to");
+    }
+
 }

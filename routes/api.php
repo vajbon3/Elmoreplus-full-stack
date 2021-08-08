@@ -22,31 +22,33 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// public routes
-Route::post("/register", [AuthController::class,"register"])->name("register");
-Route::post("/login", [AuthController::class, "login"])->name("login");
-
 
 // protected routes
-Route::group(["middleware" => ["auth:sanctum"]], function() {
-    // Auth
-    Route::post("/logout", [AuthController::class, "logout"])->name("logout");
-
+Route::group(["middleware" => ["auth"]], function() {
     // Post
-    Route::post("/posts",[PostController::class, "create"])->name("posts.create");
-    Route::get("/posts", [PostController::class, "read"])->name("posts");
-    Route::put("/posts/{post_id}", [PostController::class, "update"])->name("posts.update");
-    Route::delete("/posts/{post_id}", [PostController::class, "delete"])->name("posts.delete");
+    Route::post("/posts",[PostController::class, "create"])->name("api.posts.create");
+    Route::get("/posts", [PostController::class, "read"])->name("api.posts");
+    Route::put("/posts/{post_id}", [PostController::class, "update"])->name("api.posts.update");
+    Route::delete("/posts/{post_id}", [PostController::class, "delete"])->name("api.posts.delete");
 
     // Comment
-    Route::post("/comments", [CommentController::class, "create"])->name("comments.create");
-    Route::get("/posts/{post_id}/comments", [CommentController::class, "read"])->name("comments");
-    Route::put("/comments/{comment_id}", [CommentController::class, "update"])->name("comments.update");
-    Route::delete("/comments/{comment_id}", [CommentController::class, "delete"])->name("comments.delete");
+    Route::post("/comments", [CommentController::class, "create"])->name("api.comments.create");
+    Route::get("/posts/{post_id}/comments", [CommentController::class, "read"])->name("api.comments");
+    Route::put("/comments/{comment_id}", [CommentController::class, "update"])->name("api.comments.update");
+    Route::delete("/comments/{comment_id}", [CommentController::class, "delete"])->name("api.comments.delete");
 
     // like
-    Route::post("/posts/{post_id}/like", [LikeController::class, "create"])->name("likes.create");
-    Route::get("/posts/{post_id}/likes", [LikeController::class, "read"])->name("likes");
-    Route::delete("/posts/{post_id}/like", [LikeController::class, "delete"])->name("likes.delete");
+    Route::post("/posts/{post_id}/like", [LikeController::class, "create"])->name("api.likes.create");
+    Route::get("/posts/{post_id}/likes", [LikeController::class, "read"])->name("api.likes");
+    Route::delete("/posts/{post_id}/like", [LikeController::class, "delete"])->name("api.likes.delete");
+
+    // friend requests
+    Route::post("/requests", [\App\Http\Controllers\RequestController::class, "create"])->name("api.requests.create");
+    Route::post("/requests/confirm", [\App\Http\Controllers\RequestController::class, "confirm"])->name("api.requests.confirm");
+
+    // notifications
+    Route::post("/notifications", [\App\Http\Controllers\NotificationController::class, "read"])->name(("api.notifications.read"));
+    Route::post("/notifications/requests", [\App\Http\Controllers\NotificationController::class, "getRequests"])->name(("api.notifications.requests"));
+    Route::post("/notifications/delete", [\App\Http\Controllers\NotificationController::class, "delete"])->name(("api.notifications.delete"));
 
 });

@@ -11,10 +11,11 @@ class Post extends Model
 
     public $fillable = [
         "body",
+        "user_id"
     ];
 
     public function author() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,"user_id");
     }
 
     public function comments() {

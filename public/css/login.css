@@ -1,0 +1,9 @@
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(/images/elmoreplus.png?c161d3517ad576662070f7fc67531d6f);
+    background-size: cover;
+}
+
