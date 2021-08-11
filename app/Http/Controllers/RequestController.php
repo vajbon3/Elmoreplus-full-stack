@@ -14,12 +14,15 @@ class RequestController extends Controller
             "id" => "required|exists:users,id"
         ]);
 
+        $user = Auth()->user();
+
         // create a friendship request notification
         $notification = Notification::create([
                 "to" => $request->id,
-                "subject" => Auth()->id(),
+                "subject" => $user->id,
                 "type" => 1,
-                "url" => "/requests"
+                "url" => "/requests",
+                "text" => "$user->name sent you a friend request"
         ]);
 
         return response($notification,201);

@@ -23,7 +23,7 @@
         </div>
     @endforeach
 
-<a href="/notifications" class="block rounded w-full p-4 mt-2 bg-blue-200 text-blue-500 text-center">See more</a>
+    <x-throttle />
 </div>
 
 <script src="{{ mix("js/friends.js") }}"></script>

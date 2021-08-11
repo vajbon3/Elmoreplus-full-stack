@@ -20,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 // public routes
 Route::middleware("auth")->group(function() {
     Route::get('/', function () {
-        $posts = Post::with("author","likes","comments")->take(10)->orderBy("created_at","DESC")->get();
-        $notifications = Notification::where("to",Auth()->id())->take(5)->orderBy("created_at", "DESC")->get();
+        $posts = Auth()->user()->feed()->take(10);
+        $notifications = Auth()->user()->notifications()->take(5)->orderBy("created_at", "DESC")->get();
         return view('home',[
             "posts" => $posts,
             "notifications" => $notifications
@@ -30,8 +30,8 @@ Route::middleware("auth")->group(function() {
 
     // friend requests
     Route::get("/requests", function() {
-        $requests = Notification::where("to",Auth()->id())->where("type",1)->take(10)->orderBy("created_at","DESC")->get();
-        $notifications = Notification::where("to",Auth()->id())->take(5)->orderBy("created_at", "DESC")->get();
+        $requests = Auth()->user()->requests()->take(10)->orderBy("created_at","DESC")->get();
+        $notifications = Auth()->user()->notifications()->take(5)->orderBy("created_at", "DESC")->get();
         return view("requests", [
            "requests" => $requests,
            "notifications" => $notifications,
@@ -40,7 +40,7 @@ Route::middleware("auth")->group(function() {
 
     // notifications
     Route::get("/notifications", function() {
-        $notifications = Notification::where("to",Auth()->id())->take(5)->orderBy("created_at", "DESC")->get();
+        $notifications = Auth()->user()->notifications()->take(5)->orderBy("created_at", "DESC")->get();
         return view("notifications", [
             "notifications" => $notifications,
         ]);

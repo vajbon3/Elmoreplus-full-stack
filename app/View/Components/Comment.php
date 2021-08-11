@@ -4,21 +4,21 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Post extends Component
+class Comment extends Component
 {
-
-    public \App\Models\Post $post;
     public string $classoptions;
+    public \App\Models\Comment $comment;
 
     /**
      * Create a new component instance.
      *
-     * @param \App\Models\Post|null $post
-     * @param string $classoptions
+     * @param \App\Models\Comment|null $comment
+     * @param String $classoptions
      */
-    public function __construct(\App\Models\Post $post = null,$classoptions = "")
+    public function __construct(\App\Models\Comment $comment = null,
+                                String $classoptions = "")
     {
-        $this->post = $post;
+        $this->comment = $comment;
         $this->classoptions = $classoptions;
     }
 
@@ -29,6 +29,6 @@ class Post extends Component
      */
     public function render()
     {
-        return view('components.post');
+        return view('components.comment');
     }
 }

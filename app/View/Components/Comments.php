@@ -2,24 +2,25 @@
 
 namespace App\View\Components;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class Post extends Component
+class Comments extends Component
 {
-
+    public Collection $comments;
     public \App\Models\Post $post;
-    public string $classoptions;
-
     /**
      * Create a new component instance.
      *
-     * @param \App\Models\Post|null $post
-     * @param string $classoptions
+     * @return void
      */
-    public function __construct(\App\Models\Post $post = null,$classoptions = "")
+    public function __construct(Collection $comments = null,\App\Models\Post $post = null)
     {
+        $this->comments = $comments;
+        if($comments == null)
+            $this->comments = collect();
+
         $this->post = $post;
-        $this->classoptions = $classoptions;
     }
 
     /**
@@ -29,6 +30,6 @@ class Post extends Component
      */
     public function render()
     {
-        return view('components.post');
+        return view('components.comments');
     }
 }

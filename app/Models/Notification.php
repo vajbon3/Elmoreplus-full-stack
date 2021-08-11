@@ -9,6 +9,14 @@ class Notification extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        "to",
+        "subject",
+        "url",
+        "type",
+        "text"
+    ];
+
     public function whose() {
         return $this->belongsTo(User::class, "to");
     }

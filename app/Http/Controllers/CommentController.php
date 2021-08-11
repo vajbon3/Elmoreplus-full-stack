@@ -11,32 +11,31 @@ class CommentController extends Controller
 {
     public function create(Request $request) {
         // validate
-        $comment = $request->validate([
-            "post_id" => "required|digits|exists:posts,id",
-            "body" => "required|string|max:500"
+        $request->validate([
+            "post_id" => "required|exists:posts,id",
+            "comment_body" => "required|max:500"
         ]);
 
         // create comment
-        $comment = new Comment([
-            "user_id" => Auth::user()->id,
-            "post_id" => $comment["post_id"],
-            "body" => $comment["body"]
+        $comment = Comment::create([
+            "post_id" => $request->post_id,
+            "body" => $request->comment_body,
+            "user_id" => Auth()->id(),
         ]);
 
-        // save the comment to the database
-        $comment->save();
-
+        $comment->load(["author"]);
 
         return response($comment,201);
     }
 
-    public function read($post_id) {
+    public function read(Request $request, $post_id) {
         $post = Post::where("id", $post_id)->first();
 
         if(!$post)
             return response("No such comment",404);
 
         $comments = $post->comments()->orderBy("created_at")->get();
+        $comments->load(["author"]);
 
         return response($comments, 201);
     }
@@ -56,6 +55,7 @@ class CommentController extends Controller
         $comment->update([
            "body" => $validated["body"]
         ]);
+        $comment->load(["author"]);
 
         return response($comment,201);
     }

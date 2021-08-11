@@ -10,5 +10,3 @@
         </x-form>
     </div>
 </div>
-
-<script src="{{ mix("js/friends.js") }}"></script>

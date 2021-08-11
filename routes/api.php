@@ -33,7 +33,7 @@ Route::group(["middleware" => ["auth"]], function() {
 
     // Comment
     Route::post("/comments", [CommentController::class, "create"])->name("api.comments.create");
-    Route::get("/posts/{post_id}/comments", [CommentController::class, "read"])->name("api.comments");
+    Route::post("/posts/{post_id}/comments", [CommentController::class, "read"])->name("api.comments");
     Route::put("/comments/{comment_id}", [CommentController::class, "update"])->name("api.comments.update");
     Route::delete("/comments/{comment_id}", [CommentController::class, "delete"])->name("api.comments.delete");
 

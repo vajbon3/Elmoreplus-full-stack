@@ -43,13 +43,14 @@ class AuthController extends Controller
     public function login(Request $request) {
         $fields = $request->validate([
            "email" => "required|email",
-           "password" => "required|string"
+           "password" => "required|string",
+            "remember" => "boolean"
         ]);
 
         // check email
         $user = User::where("email", $fields["email"])->first();
 
-        if(Auth::attempt($fields)) {
+        if(Auth::attempt($request->all(["email", "password"]),$request->remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended("/");

@@ -14,11 +14,13 @@ class Friendship extends Model
         "B"
     ];
 
-    public function A() {
-        return $this->hasOne(User::class,"A");
+    public function one(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(User::class,"id","B");
     }
 
-    public function B() {
-        return $this->hasOne(User::class, "B");
+    public function two(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(User::class, "id","B");
     }
 }
